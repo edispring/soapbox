@@ -1,0 +1,39 @@
+<header>
+  <div class="navbar">
+    <title>
+      cars
+    </title>
+    <div class="btn-group">
+      <button class="btn add-car-button">
+        <i name="car-add"></i>
+      </button>
+      <button class="btn options-button">
+        <i name="more"></i>
+      </button>
+    </div>
+  </div>
+</header>
+ 
+<div class="cars-page-content container">
+  <ul class="list-group">
+    <li *ngFor="let car of cars | async" class="list-group-item">
+      <div item class="car">
+        <img class="car-picture" [src]="car.picture">
+        <div class="car-info">
+          <h2 class="car-title">{{car.title}}</h2>
+ 
+          <p *ngIf="car.lastRun" class="last-run">
+            <span>{{car.lastRun.finished}}</span>
+            <br>
+            <span class="last-run-timestamp">{{car.lastRun.start }}</span>
+            <br>
+            <span class="last-run-timestamp">{{car.lastRun.end }}</span>
+          </p>
+        </div>
+      </div>
+      <!-- <item-options class="car-options">
+        <button button color="danger" class="option optremove">Remove</button>
+      </item-options> -->
+    </li>
+  </ul>
+</div>
