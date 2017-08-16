@@ -1,11 +1,11 @@
 export interface Car {
-    _id: string;
+    _id?: string;
     title: string;
-    picture: string;
     drivers: string[]
     year: number,
     number: number,
-    lastRun : Run
+    lastRun? : Run
+    moving?: boolean;
 }
 
 export interface Run {

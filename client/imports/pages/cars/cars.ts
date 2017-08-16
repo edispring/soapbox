@@ -1,47 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Cars, Runs } from '../../../../imports/collections';
 import template from './cars.html';
-import { Car } from '../../../../imports/models';
+import { Car, Run } from '../../../../imports/models';
 import * as Moment from 'moment';
 import { Observable } from 'rxjs';
+import { MeteorObservable } from 'meteor-rxjs';
 
 @Component({
   selector: 'cars',
   template
 })
-export class CarsPage {
+export class CarsPage implements OnInit {
   cars: Observable<Car[]>;
+  runs: Observable<Run[]>;
 
   constructor() {
-    this.cars = this.findCars();
   }
 
-  private findCars(): Observable<Car[]> {
-    return Observable.of([
-      {
-        _id: '0',
-        title: 'Wi(d)der Blitz',
-        picture: 'https://randomuser.me/api/portraits/thumb/women/1.jpg',
-        drivers: ['Cristina', 'Carla'],
-        year: 2017,
-        number: 2,
-        lastRun: {
-          start: Moment().subtract(2, 'minutes').toDate(),
+  public startRun(car: Car) {
+    car.lastRun = {
+      carId: car._id,
+      start: Moment().toDate(),
+      end: Moment().toDate(),
+      finished: false
+    };
+
+    Runs.insert(car.lastRun).subscribe((runId) => {
+      car.lastRun._id = runId;
+    });
+  }
+
+  public stopRun(car: Car) {
+    car.lastRun.end = Moment().toDate();
+    car.lastRun.finished = true;
+    Runs.update({ _id: car.lastRun._id }, car.lastRun).subscribe(() => {
+    });
+  }
+
+  public cancelRun(car: Car) {
+    if (car.lastRun._id)
+      Runs.remove(car.lastRun._id).subscribe(() => {
+        car.lastRun = {
+          carId: car._id,
+          start: Moment().toDate(),
           end: Moment().toDate(),
-          finished: true
-        }
-      },
-      {
-        _id: '1',
-        title: 'füür u flamme',
-        picture: 'https://randomuser.me/api/portraits/thumb/men/2.jpg',
-        drivers: ['Timon', 'Levin'],
-        year: 2017,
-        number: 3,
-        lastRun: {
-          start: Moment().subtract(5, 'minutes').toDate(),
-          end: Moment().subtract(2, 'minutes').toDate(),
-          finished: true
-        }
-      }]);
+          finished: false
+        };
+      });
+
+  }
+
+  ngOnInit() {
+    this.cars = Runs
+      .find({}, { sort: { start: -1 } })
+      .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
+        return cars.map(car => {
+          car.lastRun = runs.filter(r => car._id === r.carId)[0]
+          return car;
+        });
+      })
+      .do(values => {
+        console.log(values, 'values');
+      })
+      .zone();
   }
 }

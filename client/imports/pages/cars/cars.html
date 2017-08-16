@@ -1,39 +1,30 @@
-<header>
-  <div class="navbar">
-    <title>
-      cars
-    </title>
-    <div class="btn-group">
-      <button class="btn add-car-button">
-        <i name="car-add"></i>
-      </button>
-      <button class="btn options-button">
-        <i name="more"></i>
-      </button>
-    </div>
-  </div>
-</header>
- 
-<div class="cars-page-content container">
-  <ul class="list-group">
-    <li *ngFor="let car of cars | async" class="list-group-item">
-      <div item class="car">
-        <img class="car-picture" [src]="car.picture">
-        <div class="car-info">
-          <h2 class="car-title">{{car.title}}</h2>
- 
-          <p *ngIf="car.lastRun" class="last-run">
-            <span>{{car.lastRun.finished}}</span>
-            <br>
-            <span class="last-run-timestamp">{{car.lastRun.start }}</span>
-            <br>
-            <span class="last-run-timestamp">{{car.lastRun.end }}</span>
-          </p>
-        </div>
-      </div>
-      <!-- <item-options class="car-options">
-        <button button color="danger" class="option optremove">Remove</button>
-      </item-options> -->
-    </li>
-  </ul>
+<div class="cars-page-content container-fluid">
+    <ul class="list-group">
+        <li *ngFor="let car of cars | async" class="list-group-item">
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="car-title">{{car.title}}</h2>
+                </div>
+                <div class="col-4">
+                    <div *ngIf="car.lastRun" class="last-run">
+                        <span *ngIf="car.lastRun.finished" class="oi oi-flag"></span>
+                        <span *ngIf="!car.lastRun.finished" class="oi oi-question-mark"></span>
+                        <h3> {{(car.lastRun.end - car.lastRun.start)/1000 }} </h3>
+                    </div>
+                </div>
+                <div class="col-2"  >
+                    <button *ngIf="!car.lastRun || car.lastRun.finished" type="button" class="btn btn-success btn-start btn-lg" (click)="startRun(car)">
+                        <span class="oi oi-timer"></span>
+                    </button>
+                    <button *ngIf="car.lastRun && !car.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg" (click)="cancelRun(car)">
+                        <span class="oi oi-warning"></span>
+                    </button>
+                    <button *ngIf="car.lastRun && !car.lastRun.finished" type="button" class="btn btn-danger btn-stop btn-lg" (click)="stopRun(car)">
+                        <span class="oi oi-flag"></span>
+                    </button>
+
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
