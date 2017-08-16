@@ -55,9 +55,12 @@ export class CarsPage implements OnInit {
       .find({}, { sort: { start: -1 } })
       .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
         return cars.map(car => {
-          car.lastRun = runs.filter(r => car._id === r.carId)[0]
+          const filteredRuns = runs.filter(r => car._id === r.carId);
+          car.lastRun = filteredRuns[0];
+          car.runs = filteredRuns.length;
           return car;
-        });
+        })
+          .sort((a, b) => a.lastRun && a.lastRun.finished || a.runs < b.runs ? -1 : 1);
       })
       .do(values => {
         console.log(values, 'values');

@@ -6,6 +6,7 @@ export interface Car {
     number: number,
     lastRun? : Run
     moving?: boolean;
+    runs: number;
 }
 
 export interface Run {

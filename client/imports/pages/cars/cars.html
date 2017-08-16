@@ -4,25 +4,27 @@
             <div class="row">
                 <div class="col-6">
                     <h2 class="car-title">{{car.title}}</h2>
+                    <button *ngIf="car.lastRun && !car.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg" (click)="cancelRun(car)">
+                        <span class="oi oi-warning"></span>
+                    </button>
                 </div>
                 <div class="col-4">
                     <div *ngIf="car.lastRun" class="last-run">
                         <span *ngIf="car.lastRun.finished" class="oi oi-flag"></span>
                         <span *ngIf="!car.lastRun.finished" class="oi oi-question-mark"></span>
                         <h3> {{(car.lastRun.end - car.lastRun.start)/1000 }} </h3>
+                        <h3> Runs:&nbsp;{{car.runs }} </h3>
                     </div>
                 </div>
-                <div class="col-2"  >
+                <div class="col-1">
                     <button *ngIf="!car.lastRun || car.lastRun.finished" type="button" class="btn btn-success btn-start btn-lg" (click)="startRun(car)">
                         <span class="oi oi-timer"></span>
                     </button>
-                    <button *ngIf="car.lastRun && !car.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg" (click)="cancelRun(car)">
-                        <span class="oi oi-warning"></span>
-                    </button>
+                </div>
+                <div class="col-1">
                     <button *ngIf="car.lastRun && !car.lastRun.finished" type="button" class="btn btn-danger btn-stop btn-lg" (click)="stopRun(car)">
                         <span class="oi oi-flag"></span>
                     </button>
-
                 </div>
             </div>
         </li>
