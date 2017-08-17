@@ -3,10 +3,11 @@ export interface Car {
     title: string;
     drivers: string[]
     year: number,
-    number: number,
-    lastRun? : Run
+    startNumber: number,
+    lastRun?: Run
     moving?: boolean;
-    runs: number;
+    runs?: number;
+    category: 'kids' | 'adults' | 'bobby'
 }
 
 export interface Run {

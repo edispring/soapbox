@@ -60,7 +60,15 @@ export class CarsPage implements OnInit {
           car.runs = filteredRuns.length;
           return car;
         })
-          .sort((a, b) => a.lastRun && a.lastRun.finished || a.runs < b.runs ? 1 : -1);
+          .sort((a, b) => {
+            if (a.lastRun && !a.lastRun.finished)
+              return -1;
+
+            if (b.lastRun && !b.lastRun.finished)
+              return 1;
+
+            return a.category > b.category || a.startNumber > b.startNumber ? 1 : -1;
+          });
       })
       .do(values => {
         console.log(values, 'values');

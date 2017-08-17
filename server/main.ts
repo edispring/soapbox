@@ -10,7 +10,8 @@ Meteor.startup(() => {
       title: 'Wi(d)der Blitz',
       drivers: ['Cristina', 'Carla'],
       year: 2017,
-      number: 2
+      startNumber: 2,
+      category: 'kids'
     });
 
     Runs.collection.insert({
@@ -24,7 +25,8 @@ Meteor.startup(() => {
       title: 'füür u flamme',
       drivers: ['Timon', 'Levin'],
       year: 2017,
-      number: 3
+      startNumber: 3,
+      category: 'kids'
     });
 
     Runs.collection.insert({
