@@ -1,20 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Cars, Runs } from '../../../../imports/collections';
 import template from './cars.html';
 import { Car, Run } from '../../../../imports/models';
 import * as Moment from 'moment';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MeteorObservable } from 'meteor-rxjs';
 
 @Component({
   selector: 'cars',
   template
 })
-export class CarsPage implements OnInit {
-  cars: Observable<Car[]>;
+export class CarsPage implements OnInit, OnDestroy {
+  cars$: Observable<Car[]>;
   runs: Observable<Run[]>;
+  currentCar: Car & { time?: number };
+  timer$: Subscription;
+  carsSubscription: Subscription;
 
   constructor() {
+    this.currentCar = <any>{};
+  }
+
+  private startTimer(car: Car & { time?: number }) {
+    const source = Observable.timer(this.currentCar.time || 100, 100);
+
+    this.removeTimer();
+
+    console.log(":::START:timer");
+
+    this.timer$ = source.subscribe(x => {
+      this.currentCar.time = x / 10;
+    });
+  }
+
+  private removeTimer() {
+    if (this.timer$ && !this.timer$.closed) {
+      this.timer$.unsubscribe();
+      console.log(":::REMOVE:timer");
+    }
   }
 
   public startRun(car: Car) {
@@ -25,6 +48,11 @@ export class CarsPage implements OnInit {
       finished: false
     };
 
+    this.currentCar = car;
+    this.currentCar.time = 0;
+
+    this.startTimer(this.currentCar);
+
     Runs.insert(car.lastRun).subscribe((runId) => {
       car.lastRun._id = runId;
     });
@@ -33,12 +61,16 @@ export class CarsPage implements OnInit {
   public stopRun(car: Car) {
     car.lastRun.end = Moment().toDate();
     car.lastRun.finished = true;
+
+    this.removeTimer();
+    this.currentCar.time = (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
+
     Runs.update({ _id: car.lastRun._id }, car.lastRun).subscribe(() => {
     });
   }
 
   public cancelRun(car: Car) {
-    if (car.lastRun._id)
+    if (car.lastRun._id) {
       Runs.remove(car.lastRun._id).subscribe(() => {
         car.lastRun = {
           carId: car._id,
@@ -47,11 +79,15 @@ export class CarsPage implements OnInit {
           finished: false
         };
       });
+    }
+
+    this.removeTimer();
+    this.currentCar.time = (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
 
   }
 
   ngOnInit() {
-    this.cars = Runs
+    const cars$ = Runs
       .find({}, { sort: { start: -1 } })
       .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
         return cars.map(car => {
@@ -61,18 +97,27 @@ export class CarsPage implements OnInit {
           return car;
         })
           .sort((a, b) => {
-            if (a.lastRun && !a.lastRun.finished)
-              return -1;
-
-            if (b.lastRun && !b.lastRun.finished)
-              return 1;
-
             return a.category > b.category || a.startNumber > b.startNumber ? 1 : -1;
           });
       })
-      .do(values => {
-        console.log(values, 'values');
-      })
-      .zone();
+      .do(x => { console.log(x, 'cars'); })
+
+    this.cars$ = cars$.zone();
+
+    this.carsSubscription = cars$.subscribe(cars => {
+      const carsRunning = cars.filter(x => x.lastRun && !x.lastRun.finished);
+      if (carsRunning && carsRunning.length > 0) {
+        this.currentCar = carsRunning[0];
+        this.currentCar.time = (<any>this.currentCar.lastRun.end - <any>this.currentCar.lastRun.start) / 1000;
+        this.startTimer(this.currentCar);
+        console.log(this.currentCar, 'currentCar');
+      } else if (this.timer$) {
+        this.removeTimer();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.carsSubscription.unsubscribe();
   }
 }

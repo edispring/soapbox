@@ -1,20 +1,7 @@
-.cars-page-content {
-  .car-picture {
-    border-radius: 50%;
-    width: 50px;
-    float: left;
-  }
- 
-  .car-info {
-    float: left;
-    margin: 10px 0 0 20px;
- 
-    .last-run-timestamp {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      color: #9A9898;
-    }
-  }
+.btn-lg {
+  font-size: 3rem;
+}
+
+.car-title {
+  // font-size: 1.5rem;
 }
