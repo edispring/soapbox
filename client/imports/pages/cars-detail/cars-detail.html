@@ -1,0 +1,39 @@
+<h1>Car Details</h1>
+<form>
+    <div class="form-group">
+        <label for="carTitle">Seifenkisten Name</label>
+        <input type="text" required name="title" [(ngModel)]="car.title" class="form-control" id="carTitle" aria-describedby="carTitle"
+            placeholder="Seifenkisten Name">
+    </div>
+    <div class="form-group">
+        <label for="carNumber">Startnummer</label>
+        <input type="number" required name="startNumber" [(ngModel)]="car.startNumber" class="form-control" id="carNumber" aria-describedby="carNumber"
+            placeholder="Startnummer">
+    </div>
+    <div class="form-group">
+        <label for="category">Kategorie</label>
+        <select class="form-control" required name="category" [(ngModel)]="car.category" id="category" aria-describedby="category"
+            placeholder="Kategory">
+            <option value="kids" >Kids</option>
+            <option value="adults" >Erwachsene</option>
+            <option value="bobby" >Bobby Car</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="driver1">Fahrer 1</label>
+        <input type="text" required class="form-control" name="driver1" [(ngModel)]="car.driver1" id="driver1" aria-describedby="driver1"
+            placeholder="Fahrer 1">
+    </div>
+    <div class="form-group">
+        <label for="driver2">Fahrer 2</label>
+        <input type="text" required class="form-control" name="driver2" [(ngModel)]="car.driver2" id="driver2" aria-describedby="driver2"
+            placeholder="Fahrer 2">
+    </div>
+
+    <div class="toolbar d-flex justify-content-around">
+        <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+
+        <button type="button" (click)="cancel()" class="btn btn-secondaryt">Cancel</button>
+        <button type="submit" (click)="save()" class="btn btn-primary">Save</button>
+    </div>
+</form>

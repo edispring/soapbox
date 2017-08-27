@@ -7,7 +7,7 @@ export interface Car {
     lastRun?: Run
     moving?: boolean;
     runs?: number;
-    category: 'kids' | 'adults' | 'bobby'
+    category: 'kids' | 'adults' | 'bobby';
 }
 
 export interface Run {

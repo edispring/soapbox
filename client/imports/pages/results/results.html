@@ -1,0 +1,26 @@
+<div class="result-page-content container-fluid">
+    <div *ngFor="let cat of categories">
+        <h2>{{cat}}</h2>
+        <ul class="list-group" *ngIf="(result$ | async)">
+            <li *ngFor="let car of (result$ | async)[cat]; let i = index" class="list-group-item">
+                <div class="row">
+                    <div class="col-2">
+                        <h1>{{i+1}}.</h1>
+                    </div>
+                    <div class="col-5">
+                        <h2 class="car-title">{{car.title}} ({{car.startNumber}})</h2>
+                    </div>
+                    <div class="col-2">
+                        <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
+                            <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <h4>{{car.drivers.join(", ")}}</h4>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <hr>
+    </div>
+</div>

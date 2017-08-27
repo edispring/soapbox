@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Cars, Runs } from '../../../../imports/collections';
 import template from './cars.html';
 import { Car, Run } from '../../../../imports/models';
@@ -7,7 +8,6 @@ import { Observable, Subscription } from 'rxjs';
 import { MeteorObservable } from 'meteor-rxjs';
 
 @Component({
-  selector: 'cars',
   template
 })
 export class CarsPage implements OnInit, OnDestroy {
@@ -17,7 +17,7 @@ export class CarsPage implements OnInit, OnDestroy {
   timer$: Subscription;
   carsSubscription: Subscription;
 
-  constructor() {
+  constructor(private router: Router) {
     this.currentCar = <any>{};
   }
 
@@ -84,6 +84,10 @@ export class CarsPage implements OnInit, OnDestroy {
     this.removeTimer();
     this.currentCar.time = (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
 
+  }
+
+  public onSelect(car: Car) {
+    this.router.navigate(['/cars', car._id]);
   }
 
   ngOnInit() {
