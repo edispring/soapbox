@@ -7,15 +7,15 @@
                     <div class="col-2">
                         <h1>{{i+1}}.</h1>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                         <h2 class="car-title">{{car.title}} ({{car.startNumber}})</h2>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                         <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
                             <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col">
                         <h4>{{car.drivers.join(", ")}}</h4>
                     </div>
                 </div>

@@ -7,14 +7,21 @@
                 </div>
                 <div class="col-5">
                     <h2 class="car-title">{{currentCar.title}}</h2>
-                    <button *ngIf="currentCar.lastRun && !currentCar.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg"
-                        (click)="cancelRun(currentCar)">
-                            <span class="oi oi-warning"></span>
-                        </button>
                 </div>
-                <div class="col-2">
+                <div class="col-5">
                     <h2> <b>{{currentCar.time}}</b></h2>
                 </div>
+            </div>
+            <div *ngIf="currentCar" class="row">
+                <div class="col-3">
+                    <button *ngIf="currentCar.lastRun && !currentCar.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg"
+                        (click)="cancelRun(currentCar)">
+                        <span class="oi oi-warning"></span>
+                    </button>
+                </div>
+                <div *ngIf="currentCar.drivers" class="col-6">
+                        <h4>{{currentCar.drivers.join(", ")}}</h4>
+                    </div>
                 <div class="col-3">
                     <button *ngIf="currentCar.lastRun && !currentCar.lastRun.finished" type="button" class="btn btn-danger btn-stop btn-lg" (click)="stopRun(currentCar)">
                     <span class="oi oi-flag"></span>
@@ -33,7 +40,7 @@
                 <div class="col-5">
                     <h2 class="car-title">{{car.title}}</h2>
                 </div>
-                <div class="col-5">
+                <div class="col">
                     <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
                         <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
                     </div>
