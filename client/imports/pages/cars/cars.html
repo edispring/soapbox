@@ -1,18 +1,20 @@
 <div class="cars-page-content container">
     <div class="card">
-        <div class="card-body">
-            <div *ngIf="currentCar" class="row">
-                <div class="col-2">
-                    <h1>{{currentCar.startNumber}}</h1>
+        <div *ngIf="currentCar" class="card-body">
+            <div  class="row">
+                <div class="col-3">
+                    <h3>{{currentCar.startNumber}}</h3>
                 </div>
-                <div class="col-5">
-                    <h2 class="car-title">{{currentCar.title}}</h2>
-                </div>
-                <div class="col-5">
-                    <h2> <b>{{currentCar.time}}</b></h2>
+                <div class="col-9">
+                    <h3 class="car-title">{{currentCar.title}}</h3>
                 </div>
             </div>
-            <div *ngIf="currentCar" class="row">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="float-right"><span class="badge badge-light">{{currentCar.time}}</span></h1>
+                </div> 
+            </div>
+            <div class="row">
                 <div class="col-3">
                     <button *ngIf="currentCar.lastRun && !currentCar.lastRun.finished" type="button" class="btn btn-warning btn-stop btn-lg"
                         (click)="cancelRun(currentCar)">
@@ -20,7 +22,7 @@
                     </button>
                 </div>
                 <div *ngIf="currentCar.drivers" class="col-6">
-                        <h4>{{currentCar.drivers.join(", ")}}</h4>
+                        <h6>{{currentCar.drivers.join(", ")}}</h6>
                     </div>
                 <div class="col-3">
                     <button *ngIf="currentCar.lastRun && !currentCar.lastRun.finished" type="button" class="btn btn-danger btn-stop btn-lg" (click)="stopRun(currentCar)">
@@ -35,14 +37,15 @@
         <li *ngFor="let car of cars$ | async" class="list-group-item" [ngClass]="{ 'bg-success text-white' : (car.lastRun && !car.lastRun.finished) }">
             <div class="row">
                 <div class="col-2">
-                    <h1>{{car.startNumber}}</h1>
+                    <h3>{{car.startNumber}}</h3>
                 </div>
-                <div class="col-5">
-                    <h2 class="car-title">{{car.title}}</h2>
+                <div class="col-6">
+                    <h3 class="car-title">{{car.title}}</h3>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
-                        <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
+
+                        <h3> <span [ngClass]="{'badge badge-success': currentCar == car}"> {{(car.lastRun.end - car.lastRun.start)/1000 }}</span> </h3>
                     </div>
                 </div>
             </div>
@@ -54,12 +57,12 @@
                         </button>
                 </div>
                 <div class="col-4">
-                    <h4>Category: {{car.category }} </h4>
+                    <h6>Category: {{car.category }} </h6>
 
                 </div>
                 <div class="col-3">
                     <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
-                        <h4> Runs: {{car.runs }} </h4>
+                        <h6> Runs: {{car.runs }} </h6>
                     </div>
                 </div>
                 <div class="col-3">

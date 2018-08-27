@@ -5,17 +5,17 @@
             <li *ngFor="let car of (result$ | async)[cat]; let i = index" class="list-group-item">
                 <div class="row">
                     <div class="col-2">
-                        <h1>{{i+1}}.</h1>
+                        <h2><span class="badge badge-primary">{{i+1}}.</span></h2>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <h2 class="car-title">{{car.title}} ({{car.startNumber}})</h2>
                     </div>
-                    <div class="col">
+                    <div class="col-4">
                         <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
                             <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-8">
                         <h4>{{car.drivers.join(", ")}}</h4>
                     </div>
                 </div>

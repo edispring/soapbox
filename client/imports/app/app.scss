@@ -4,3 +4,8 @@
 // styles are for the entire app and not just one component.
 // Additionally, this file can be also used as an entry point
 // to import other Sass files to be included in the output CSS.
+
+.container, .container-fluid {
+    padding-left: 5px;
+    padding-right: 5px;
+}
