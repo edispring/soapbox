@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Cars, Runs } from '../../../../imports/collections';
-import template from './cars.html';
-import { Car, Run } from '../../../../imports/models';
-import * as Moment from 'moment';
-import { Observable, Subscription } from 'rxjs';
-import { MeteorObservable } from 'meteor-rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
+import { Cars, Runs } from "../../../../imports/collections";
+import template from "./cars.html";
+import { Car, Run } from "../../../../imports/models";
+import * as Moment from "moment";
+import { Observable, Subscription } from "rxjs";
+import { MeteorObservable, zoneOperator } from "meteor-rxjs";
 
 @Component({
   template
@@ -53,7 +53,7 @@ export class CarsPage implements OnInit, OnDestroy {
 
     this.startTimer(this.currentCar);
 
-    Runs.insert(car.lastRun).subscribe((runId) => {
+    Runs.insert(car.lastRun).subscribe(runId => {
       car.lastRun._id = runId;
     });
   }
@@ -63,10 +63,10 @@ export class CarsPage implements OnInit, OnDestroy {
     car.lastRun.finished = true;
 
     this.removeTimer();
-    this.currentCar.time = (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
+    this.currentCar.time =
+      (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
 
-    Runs.update({ _id: car.lastRun._id }, car.lastRun).subscribe(() => {
-    });
+    Runs.update({ _id: car.lastRun._id }, car.lastRun).subscribe(() => {});
   }
 
   public cancelRun(car: Car) {
@@ -82,39 +82,46 @@ export class CarsPage implements OnInit, OnDestroy {
     }
 
     this.removeTimer();
-    this.currentCar.time = (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
-
+    this.currentCar.time =
+      (<any>car.lastRun.end - <any>car.lastRun.start) / 1000;
   }
 
   public onSelect(car: Car) {
-    this.router.navigate(['/cars', car._id]);
+    this.router.navigate(["/cars", car._id]);
   }
 
   ngOnInit() {
-    const cars$ = Runs
-      .find({}, { sort: { start: -1 } })
+    const cars$ = Runs.find({}, { sort: { start: -1 } })
       .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
-        return cars.map(car => {
-          const filteredRuns = runs.filter(r => car._id === r.carId);
-          car.lastRun = filteredRuns[0];
-          car.runs = filteredRuns.length;
-          return car;
-        })
+        return cars
+          .map(car => {
+            const filteredRuns = runs.filter(r => car._id === r.carId);
+            car.lastRun = filteredRuns[0];
+            car.runs = filteredRuns.length;
+            return car;
+          })
           .sort((a, b) => {
-            return a.category > b.category || a.startNumber > b.startNumber ? 1 : -1;
+            return a.category > b.category || a.startNumber > b.startNumber
+              ? 1
+              : -1;
           });
       })
-      .do(x => { console.log(x, 'cars'); })
+      .do(x => {
+        console.log(x, "cars");
+      });
 
-    this.cars$ = cars$.zone();
+    this.cars$ = cars$.pipe(zoneOperator<Car[]>()) as Observable<Car[]>;
 
     this.carsSubscription = cars$.subscribe(cars => {
       const carsRunning = cars.filter(x => x.lastRun && !x.lastRun.finished);
       if (carsRunning && carsRunning.length > 0) {
         this.currentCar = carsRunning[0];
-        this.currentCar.time = (<any>this.currentCar.lastRun.end - <any>this.currentCar.lastRun.start) / 1000;
+        this.currentCar.time =
+          (<any>this.currentCar.lastRun.end -
+            <any>this.currentCar.lastRun.start) /
+          1000;
         this.startTimer(this.currentCar);
-        console.log(this.currentCar, 'currentCar');
+        console.log(this.currentCar, "currentCar");
       } else if (this.timer$) {
         this.removeTimer();
       }
