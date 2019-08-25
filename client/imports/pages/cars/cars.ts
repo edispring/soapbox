@@ -110,7 +110,7 @@ export class CarsPage implements OnInit, OnDestroy {
         console.log(x, "cars");
       });
 
-    this.cars$ = cars$.pipe(zoneOperator<Car[]>()) as Observable<Car[]>;
+    this.cars$ = cars$.pipe(zoneOperator()) as any;
 
     this.carsSubscription = cars$.subscribe(cars => {
       const carsRunning = cars.filter(x => x.lastRun && !x.lastRun.finished);

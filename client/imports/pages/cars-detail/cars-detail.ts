@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location } from '@angular/common';
-import { Cars } from '../../../../imports/collections';
-import template from './cars-detail.html';
-import { Car } from '../../../../imports/models';
-import * as Moment from 'moment';
-import { Observable, Subscription } from 'rxjs';
-import { MeteorObservable } from 'meteor-rxjs';
-import { first, drop } from 'lodash';
-import { NumberService } from '../../services/number-service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Location } from "@angular/common";
+import { Cars } from "../../../../imports/collections";
+import template from "./cars-detail.html";
+import { Car } from "../../../../imports/models";
+import * as Moment from "moment";
+import { Observable, Subscription } from "rxjs";
+import { MeteorObservable } from "meteor-rxjs";
+import { first, drop } from "lodash";
+import { NumberService } from "../../services/number-service";
 
 @Component({
   template
@@ -18,16 +18,20 @@ export class CarsDetailPage implements OnInit {
   carSubscription: Subscription;
   createMode = false;
 
-  constructor(private route: ActivatedRoute, private location: Location, private numberService: NumberService) {
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private numberService: NumberService
+  ) {
     this.car = <any>{};
   }
 
   public save() {
-
     this.car.drivers = [this.car.driver1, this.car.driver2];
 
     if (this.createMode) {
       this.car.year = 2017;
+      console.log("TCL: CarsDetailPage -> save -> car", this.car);
       return Cars.insert(this.car)
         .do(() => console.log(this.car, "CREATED"))
         .subscribe(() => {
@@ -57,14 +61,18 @@ export class CarsDetailPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.carSubscription = this.route.paramMap
-      .do(d => console.log("ID:" + d.get('id')))
+      .do(d => console.log("ID:" + d.get("id")))
       .switchMap((params: ParamMap) => {
-        const id = params.get('id');
-        if (id === 'create') {
+        const id = params.get("id");
+        if (id === "create") {
           this.createMode = true;
-          return Observable.of([<any>{ drivers: [], startNumber: this.numberService.getCurrentValue() } as Car]);
+          return Observable.of([
+            (<any>{
+              drivers: [],
+              startNumber: this.numberService.getCurrentValue()
+            }) as Car
+          ]);
         }
 
         return <any>Cars.find({ _id: id });

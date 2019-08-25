@@ -40,9 +40,7 @@ export class ResultsPage implements OnInit {
         console.log(x, "cars");
       });
 
-    this.result$ = cars$.pipe(zoneOperator()) as Observable<{
-      [category: string]: any[];
-    }>;
+    this.result$ = cars$.pipe(zoneOperator()) as any;
   }
 }
 

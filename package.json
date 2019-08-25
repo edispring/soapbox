@@ -5,29 +5,30 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@angular/common": "^4.3.4",
-    "@angular/compiler": "^4.3.4",
-    "@angular/compiler-cli": "^4.3.4",
-    "@angular/core": "^4.3.4",
-    "@angular/forms": "^4.3.4",
-    "@angular/http": "^4.3.4",
-    "@angular/platform-browser": "^4.3.4",
-    "@angular/platform-browser-dynamic": "^4.3.4",
-    "@angular/platform-server": "^4.3.4",
-    "@angular/router": "^4.3.6",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.1",
-    "babel-runtime": "^6.20.0",
-    "bootstrap": "^4.0.0-alpha.6",
-    "lodash": "^4.17.4",
-    "meteor-node-stubs": "~0.2.4",
-    "meteor-rxjs": "^0.4.7",
-    "moment": "^2.18.1",
-    "open-iconic": "^1.1.1",
-    "rxjs": "^5.4.3",
-    "zone.js": "^0.8.16"
+    "@angular/common": "4.4.7",
+    "@angular/compiler": "4.4.7",
+    "@angular/compiler-cli": "4.4.7",
+    "@angular/core": "4.4.7",
+    "@angular/forms": "4.4.7",
+    "@angular/http": "4.4.7",
+    "@angular/platform-browser": "4.4.7",
+    "@angular/platform-browser-dynamic": "4.4.7",
+    "@angular/platform-server": "4.4.7",
+    "@angular/router": "4.4.7",
+    "@ng-bootstrap/ng-bootstrap": "1.1.2",
+    "babel-runtime": "6.20.0",
+    "bootstrap": "4.3.1",
+    "lodash": "4.17.4",
+    "meteor-node-stubs": "0.2.11",
+    "meteor-rxjs": "0.4.14",
+    "moment": "2.18.1",
+    "open-iconic": "1.1.1",
+    "rxjs": "5.5.12",
+    "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "@types/meteor": "^1.4.4",
-    "meteor-typings": "^1.4.1"
+    "@types/meteor": "1.4.4",
+    "meteor-typings": "1.4.1",
+    "typescript": "2.1.5"
   }
 }
