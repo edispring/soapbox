@@ -18,7 +18,7 @@
     "@ng-bootstrap/ng-bootstrap": "1.1.2",
     "babel-runtime": "6.20.0",
     "bootstrap": "4.3.1",
-    "lodash": "4.17.4",
+    "lodash": "4.17.19",
     "meteor-node-stubs": "0.2.11",
     "meteor-rxjs": "0.4.14",
     "moment": "2.18.1",
