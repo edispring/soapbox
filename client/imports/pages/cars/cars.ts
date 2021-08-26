@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { Cars, Runs } from "../../../../imports/collections";
-import template from "./cars.html";
 import { Car, Run } from "../../../../imports/models";
 import * as Moment from "moment";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/combineLatest';
 import { Observable, Subscription } from "rxjs";
 import { MeteorObservable, zoneOperator } from "meteor-rxjs";
 
 @Component({
-  template
+  templateUrl: "./cars.html"
 })
 export class CarsPage implements OnInit, OnDestroy {
   cars$: Observable<Car[]>;
@@ -92,7 +95,7 @@ export class CarsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const cars$ = Runs.find({}, { sort: { start: -1 } })
-      .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
+      .combineLatest(Cars.find({ year: 2021 }), (runs, cars) => {
         return cars
           .map(car => {
             const filteredRuns = runs.filter(r => car._id === r.carId);

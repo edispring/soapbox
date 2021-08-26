@@ -2,16 +2,16 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Location } from "@angular/common";
 import { Cars } from "../../../../imports/collections";
-import template from "./cars-detail.html";
 import { Car } from "../../../../imports/models";
-import * as Moment from "moment";
 import { Observable, Subscription } from "rxjs";
-import { MeteorObservable } from "meteor-rxjs";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
 import { first, drop } from "lodash";
 import { NumberService } from "../../services/number-service";
 
 @Component({
-  template
+  templateUrl:"./cars-detail.html"
 })
 export class CarsDetailPage implements OnInit {
   car: Car & { driver1: string; driver2: string };
@@ -30,7 +30,7 @@ export class CarsDetailPage implements OnInit {
     this.car.drivers = [this.car.driver1, this.car.driver2];
 
     if (this.createMode) {
-      this.car.year = 2017;
+      this.car.year = 2021;
       console.log("TCL: CarsDetailPage -> save -> car", this.car);
       return Cars.insert(this.car)
         .do(() => console.log(this.car, "CREATED"))

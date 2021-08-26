@@ -1,7 +1,7 @@
 {
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb://soapbox-app:soapbox-2019@ds034797.mlab.com:34797/soapbox"
+      "MONGO_URL": "mongodb+srv://soapbox-app:soapbox-2019@dev-cluster.tdvwd.mongodb.net/soapbox?retryWrites=true&w=majority"
     }
   }
 }

@@ -1,22 +1,24 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Cars, Runs } from "../../../../imports/collections";
-import template from "./results.html";
 import { Car, Run } from "../../../../imports/models";
-import * as Moment from "moment";
 import { Observable, Subscription } from "rxjs";
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/startWith';
 import { MeteorObservable, zoneOperator } from "meteor-rxjs";
 import { minBy, groupBy } from "lodash";
 
 @Component({
-  template
+  templateUrl:"./results.html"
 })
 export class ResultsPage implements OnInit {
-  result$: Observable<{ [category: string]: any[] }>;
+  result$: Observable<{ [category: string]: any[] }> = Observable.from([]);
   categories = ["kids", "bobby", "adults"];
 
   ngOnInit() {
     const cars$ = Runs.find({}, { sort: { start: -1 } })
-      .combineLatest(Cars.find({ year: 2017 }), (runs, cars) => {
+      .combineLatest(Cars.find({ year: 2021 }), (runs, cars) => {
+        console.log("🚀 ~ file: results.ts ~ line 21 ~ ResultsPage ~ .combineLatest ~ runs, cars", runs, cars)
         return groupBy(
           cars
             .map(car => {
