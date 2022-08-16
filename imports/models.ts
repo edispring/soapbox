@@ -4,7 +4,8 @@ export interface Car {
     drivers: string[]
     year: number,
     startNumber: number,
-    lastRun?: Run
+    lastRun?: Run;
+    bestRun?: Run;
     moving?: boolean;
     runs?: number;
     category: 'kids' | 'adults' | 'bobby';

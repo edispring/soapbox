@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import * as Moment from "moment";
 import { Cars, Runs } from "../imports/collections";
-import * from "./methods";
+import { Car, Run } from '../imports/models';
 
 Meteor.startup(() => {
     if (Cars.find({}).cursor.count() === 0) {
@@ -9,7 +9,7 @@ Meteor.startup(() => {
       carId = Cars.collection.insert({
         title: 'Wi(d)der Blitz',
         drivers: ['Cristina', 'Carla'],
-        year: 2021,
+        year: 2022,
         startNumber: 2,
         category: 'kids'
       });
@@ -22,7 +22,7 @@ Meteor.startup(() => {
       carId = Cars.collection.insert({
         title: 'füür u flamme',
         drivers: ['Timon', 'Levin'],
-        year: 2021,
+        year: 2022,
         startNumber: 3,
         category: 'kids'
       });

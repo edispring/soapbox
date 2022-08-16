@@ -95,7 +95,7 @@ export class CarsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const cars$ = Runs.find({}, { sort: { start: -1 } })
-      .combineLatest(Cars.find({ year: 2021 }), (runs, cars) => {
+      .combineLatest(Cars.find({ year: 2022 }), (runs, cars) => {
         return cars
           .map(car => {
             const filteredRuns = runs.filter(r => car._id === r.carId);
@@ -132,6 +132,6 @@ export class CarsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.carsSubscription.unsubscribe();
+    if(this.carsSubscription && this.carsSubscription.unsubscribe) this.carsSubscription.unsubscribe();
   }
 }

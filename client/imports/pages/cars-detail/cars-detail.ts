@@ -30,7 +30,7 @@ export class CarsDetailPage implements OnInit {
     this.car.drivers = [this.car.driver1, this.car.driver2];
 
     if (this.createMode) {
-      this.car.year = 2021;
+      this.car.year = 2022;
       console.log("TCL: CarsDetailPage -> save -> car", this.car);
       return Cars.insert(this.car)
         .do(() => console.log(this.car, "CREATED"))
@@ -88,6 +88,6 @@ export class CarsDetailPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.carSubscription.unsubscribe();
+    if(this.carSubscription && this.carSubscription.unsubscribe) this.carSubscription.unsubscribe();
   }
 }

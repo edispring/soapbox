@@ -2,7 +2,8 @@
   "name": "soapbox",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "deploy": "meteor deploy soapbox.lambda-it.ch --settings ./settings.json"
   },
   "dependencies": {
     "@angular/animations": "5.0.2",

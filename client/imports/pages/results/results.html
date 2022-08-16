@@ -11,8 +11,8 @@
                         <h2 class="car-title">{{car.title}} ({{car.startNumber}})</h2>
                     </div>
                     <div class="col-4">
-                        <div *ngIf="car.lastRun && car.lastRun.finished" class="last-run">
-                            <h3><b> {{(car.lastRun.end - car.lastRun.start)/1000 }}</b> </h3>
+                        <div *ngIf="car.bestRun && car.bestRun.finished" class="last-run">
+                            <h3><b> {{car.bestRun.duration }}</b> </h3>
                         </div>
                     </div>
                     <div class="col-8">
