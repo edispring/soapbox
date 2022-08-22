@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-4">
                         <div *ngIf="car.bestRun && car.bestRun.finished" class="last-run">
-                            <h3><b> {{car.bestRun.duration }}</b> </h3>
+                            <h3><b> {{Math.floor(car.bestRun.duration * 100) /100 }}</b> </h3>
                         </div>
                     </div>
                     <div class="col-8">
